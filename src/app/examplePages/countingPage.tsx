@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import CircularProgressBar from "../Components/circularProgressBar";
 
 const countLocalStorageKey: string = "COUNT_LOCAL_STORAGE_KEY";
 
@@ -15,15 +16,13 @@ export default function CountingPage() {
   useEffect(() => {
     setTimeout(() => {
       const initialCount = getInitialCount();
-      console.log(`Initial Load: ${initialCount}`);
 
       setCount(initialCount);
-    }, 5000);
+    }, 2000);
   }, []);
 
   useEffect(() => {
     if (count != null) {
-      console.log(`Update Load: ${count}`);
       localStorage.setItem(countLocalStorageKey, count.toString());
     }
   }, [count]);
@@ -35,7 +34,9 @@ export default function CountingPage() {
   };
 
   if (count === null) {
-    return <p>Loading...</p>;
+    return (
+      <CircularProgressBar color="white" heightWidth={50} strokeWidth={2.5} />
+    );
   }
 
   return (
