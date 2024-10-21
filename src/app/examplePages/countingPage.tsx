@@ -1,12 +1,42 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+const countLocalStorageKey: string = "COUNT_LOCAL_STORAGE_KEY";
 
 export default function CountingPage() {
-  const [count, setCount] = useState(0);
+  const getInitialCount = () => {
+    const storedCount = localStorage.getItem(countLocalStorageKey) ?? "0";
+
+    return parseInt(storedCount);
+  };
+
+  const [count, setCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const initialCount = getInitialCount();
+      console.log(`Initial Load: ${initialCount}`);
+
+      setCount(initialCount);
+    }, 5000);
+  }, []);
+
+  useEffect(() => {
+    if (count != null) {
+      console.log(`Update Load: ${count}`);
+      localStorage.setItem(countLocalStorageKey, count.toString());
+    }
+  }, [count]);
 
   const incrementCount = function () {
-    setCount(count + 1);
+    if (count != null) {
+      setCount(count + 1);
+    }
   };
+
+  if (count === null) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <main className="flex flex-col gap-8 items-center">
