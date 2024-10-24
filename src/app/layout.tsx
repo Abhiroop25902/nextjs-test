@@ -14,8 +14,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Clicking Test",
-  description: "Click Click Click",
+  title: "Home Page",
+  description: "Index",
 };
 
 export default function RootLayout({
