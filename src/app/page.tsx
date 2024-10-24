@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import RedirectButton from "./components/redirectButton";
 
 export default function Page() {

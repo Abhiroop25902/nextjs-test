@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CircularProgressBar from "../components/circularProgressBar";
 
 const countLocalStorageKey: string = "COUNT_LOCAL_STORAGE_KEY";
