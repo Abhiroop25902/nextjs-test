@@ -1,6 +1,10 @@
-import RedirectButton from "./components/redirectButton";
+"use client";
+
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
+
   return (
     <div
       className="flex min-h-screen items-center justify-center 
@@ -11,7 +15,17 @@ export default function Page() {
           Hello
         </h1>
         <div className="col-span-3 flex justify-center">
-          <RedirectButton url="/count" text="Count" />
+          <button
+            className="bg-indigo-600 hover:bg-indigo-500 
+    rounded-md px-3 py-2 font-semibold text-white
+    focus-visible:outline focus-visible:outline-2 
+    focus-visible:outline-offset-2  focus-visible:outline-indigo-600"
+            onClick={() => {
+              router.push("/count");
+            }}
+          >
+            Count
+          </button>
         </div>
       </div>
     </div>
