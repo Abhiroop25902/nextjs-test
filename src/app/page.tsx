@@ -14,7 +14,6 @@ export default function Page() {
         </h1>
         <div className="col-span-3 flex justify-around">
           <RedirectButton text="Count" url="/count" />
-          <RedirectButton text="Rainbow" url="/rainbow" />
         </div>
       </div>
     </div>
