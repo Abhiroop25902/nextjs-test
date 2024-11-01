@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function CountingPage() {
   return (
     <main
-      className="grid  min-h-screen  items-center justify-items-center 
+      className="grid flex-auto items-center justify-items-center 
      font-[family-name:var(--font-geist-sans)]"
     >
       <div className="flex flex-col gap-8 items-center">

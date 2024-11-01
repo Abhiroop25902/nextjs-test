@@ -5,7 +5,7 @@ import RedirectButton from "./Components/redirectButton";
 export default function Page() {
   return (
     <div
-      className="flex min-h-screen items-center justify-center 
+      className="flex flex-auto items-center justify-center 
      font-[family-name:var(--font-geist-sans)]"
     >
       <div className="grid grid-cols-3">
