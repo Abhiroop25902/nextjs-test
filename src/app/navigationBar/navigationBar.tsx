@@ -137,7 +137,12 @@ export default function NavigationBar() {
           </div>
         </div>
       </div>
-      <DisclosurePanel className="sm:hidden \">
+      <DisclosurePanel
+        transition
+        className="sm:hidden transition-all duration-200 ease-out overflow-hidden
+        data-[closed]:max-h-0
+        data-[open]:max-h-screen"
+      >
         <div className="space-y-1 px-2 pb-3 pt-2">
           {Object.keys(navigation).map((key) => (
             <Link
