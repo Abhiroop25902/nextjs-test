@@ -1,7 +1,6 @@
 // Thanks to https://github.com/n3r4zzurr0/svg-spinners
 
 type CircularProgressBarProps = {
-  color: string;
   heightWidth: number;
   strokeWidth: number;
 };
@@ -12,8 +11,8 @@ export default function CircularProgressBar(props: CircularProgressBarProps) {
       xmlns="http://www.w3.org/2000/svg"
       width={props.heightWidth.toString()}
       height={props.heightWidth.toString()}
-      stroke={props.color}
       viewBox={`0 0 24 24`}
+      id="circularProgressBar"
     >
       <g>
         <circle

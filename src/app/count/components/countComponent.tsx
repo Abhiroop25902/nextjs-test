@@ -35,9 +35,7 @@ export default function CountComponent() {
   };
 
   if (count === null) {
-    return (
-      <CircularProgressBar color="white" heightWidth={50} strokeWidth={2.5} />
-    );
+    return <CircularProgressBar heightWidth={50} strokeWidth={2.5} />;
   }
   return (
     <>
