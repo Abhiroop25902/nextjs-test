@@ -1,3 +1,4 @@
+// TODO: refactor it to just button, decouple redirection using a function as a prop
 "use client";
 
 import { useRouter } from "next/navigation";

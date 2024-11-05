@@ -11,6 +11,9 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        secondary: "var(--secondary)",
+        "button-color": "var(--button-color)",
+        "button-color-hover": "var(--button-color-hover)",
       },
     },
   },
