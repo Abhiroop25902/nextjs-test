@@ -10,6 +10,9 @@ type InputBoxProp = {
 };
 
 export default function InputBox(props: InputBoxProp) {
+  const initialTranslateState = "-12.7rem 0rem";
+  const reducedTranslateState = "-12.7rem -0.6rem";
+
   const labelId = useId();
   const inputId = useId();
   const noIconDivId = useId();
@@ -20,7 +23,7 @@ export default function InputBox(props: InputBoxProp) {
       throw new Error(`Element with id: ${labelId} not found`);
 
     labelElement.style.transform = "scale(0.75)";
-    labelElement.style.translate = "-204px -10px";
+    labelElement.style.translate = reducedTranslateState;
   }, [labelId]);
 
   const resetLabelSize = useCallback(() => {
@@ -29,7 +32,7 @@ export default function InputBox(props: InputBoxProp) {
       throw new Error(`Element with id: ${labelId} not found`);
 
     labelElement.style.transform = "scale(1)";
-    labelElement.style.translate = "-204px 0px";
+    labelElement.style.translate = initialTranslateState;
   }, [labelId]);
 
   const [hidden, setHidden] = useState(
@@ -72,7 +75,7 @@ export default function InputBox(props: InputBoxProp) {
         <Label
           className={`inline-block color-white w-0 text-gray-400 origin-top transition-all ease-in-out duration-300`}
           style={{
-            translate: "-204px 0px",
+            translate: initialTranslateState,
           }}
           id={labelId}
         >
