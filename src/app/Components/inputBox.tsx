@@ -37,7 +37,7 @@ export default function InputBox(props: InputBoxProp) {
   );
 
   useEffect(() => {
-    const inputElement = document.getElementById(inputId);
+    const inputElement = document.getElementById(inputId) as HTMLInputElement;
     if (inputElement === null)
       throw new Error(`Element with id: ${inputId} not found`);
     inputElement.addEventListener("focusin", () => reduceLabelSize());
@@ -86,7 +86,7 @@ export default function InputBox(props: InputBoxProp) {
             className="h-10 w-10 cursor-pointer"
             onClick={() => setHidden(false)}
           >
-            <EyeSlashIcon className={`p-2`} color="var(--foreground)" />
+            <EyeIcon className={`p-2`} color="var(--foreground)" />
           </div>
         )}
         {hidden === false && (
@@ -94,7 +94,7 @@ export default function InputBox(props: InputBoxProp) {
             className="h-10 w-10 cursor-pointer"
             onClick={() => setHidden(true)}
           >
-            <EyeIcon className={`p-2`} color="var(--foreground)" />
+            <EyeSlashIcon className={`p-2`} color="var(--foreground)" />
           </div>
         )}
         {/* When I am clicking the icons multiple times, sign in gets selected
