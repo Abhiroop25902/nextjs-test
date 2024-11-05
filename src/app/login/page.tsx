@@ -8,7 +8,7 @@ export default function LoginPage() {
         <Fieldset>
           <div className={`flex flex-col space-y-5`}>
             <Legend className={"text-2xl font-bold"}> Sign In</Legend>
-            <InputBox label="Username" />
+            <InputBox label="Email" />
             <InputBox label="Password" inputType="password" />
             <Button
               className={`bg-button-color hover:bg-button-color-hover

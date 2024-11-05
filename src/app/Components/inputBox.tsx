@@ -10,12 +10,11 @@ type InputBoxProp = {
 };
 
 export default function InputBox(props: InputBoxProp) {
-  const initialTranslateState = "-12.7rem 0rem";
-  const reducedTranslateState = "-12.7rem -0.6rem";
+  const initialTranslateState = "0.5rem 0rem";
+  const reducedTranslateState = "0.5rem -0.6rem";
 
   const labelId = useId();
   const inputId = useId();
-  const noIconDivId = useId();
 
   const reduceLabelSize = useCallback(() => {
     const labelElement = document.getElementById(labelId);
@@ -48,32 +47,23 @@ export default function InputBox(props: InputBoxProp) {
       if (inputElement.value === "") resetLabelSize();
     });
 
-    if (hidden === undefined) {
-      const noIconDivElement = document.getElementById(noIconDivId);
-      if (noIconDivElement === null)
-        throw new Error(`Element with id: ${noIconDivId} not found`);
-
-      noIconDivElement.addEventListener("click", () => {
-        inputElement.focus();
-      });
-    }
-  }, [hidden, inputId, noIconDivId, reduceLabelSize, resetLabelSize]);
+    const labelElement = document.getElementById(labelId);
+    if (labelElement === null)
+      throw new Error(`Element with id: ${inputId} not found`);
+    labelElement.addEventListener("click", () => {
+      inputElement.focus();
+    });
+  }, [hidden, inputId, labelId, reduceLabelSize, resetLabelSize]);
 
   return (
     <Field>
       <div
-        className={`block w-full rounded-md border-0 p-1.5 text-gray-900 
+        className={`block w-80 rounded-md border-0 p-1.5 text-gray-900 
       shadow-sm focus-within:ring-2 focus-within:ring-inset focus:ring-indigo-600
-      bg-slate-700 h-14 flex justify-items-center items-center`}
+      bg-slate-700 h-14 flex justify-between items-center`}
       >
-        <Input
-          className={`focus-visible:outline-0 bg-transparent placeholder:hidden px-2 pt-3 text-white`}
-          name="username"
-          id={inputId}
-          type={hidden === true ? "password" : ""}
-        ></Input>
         <Label
-          className={`inline-block color-white w-0 text-gray-400 origin-top transition-all ease-in-out duration-300`}
+          className={`inline-block color-white w-0 text-gray-400 origin-top transition-all ease-in-out duration-300 cursor-text`}
           style={{
             translate: initialTranslateState,
           }}
@@ -81,12 +71,16 @@ export default function InputBox(props: InputBoxProp) {
         >
           {props.label}
         </Label>
-        {hidden === undefined && (
-          <div className="h-10 w-10 cursor-text" id={noIconDivId}></div>
-        )}
+        <Input
+          className={`focus-visible:outline-0 bg-transparent placeholder:hidden px-2 pt-3 text-white grow`}
+          name="username"
+          id={inputId}
+          type={hidden === true ? "password" : ""}
+        ></Input>
+
         {hidden === true && (
           <div
-            className="h-10 w-10 cursor-pointer"
+            className="h-10 w-10 cursor-pointer flex-none"
             onClick={() => setHidden(false)}
           >
             <EyeIcon className={`p-2`} color="var(--foreground)" />
@@ -94,7 +88,7 @@ export default function InputBox(props: InputBoxProp) {
         )}
         {hidden === false && (
           <div
-            className="h-10 w-10 cursor-pointer"
+            className="h-10 w-10 cursor-pointer flex-none"
             onClick={() => setHidden(true)}
           >
             <EyeSlashIcon className={`p-2`} color="var(--foreground)" />
