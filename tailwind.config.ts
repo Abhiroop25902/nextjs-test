@@ -14,6 +14,7 @@ const config: Config = {
         secondary: "var(--secondary)",
         "button-color": "var(--button-color)",
         "button-color-hover": "var(--button-color-hover)",
+        "error-color": "var(--error-color)"
       },
     },
   },

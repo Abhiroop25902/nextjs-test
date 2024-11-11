@@ -125,13 +125,13 @@ export default function InputBox(props: InputBoxProp) {
         <p style={{ fontSize: "0px" }}>a</p>
       </div>
       <div className="h-4">
-        <div className="pt-1 flex items-center" id={errorId}>
+        <div className="pt-1 flex items-center hidden" id={errorId}>
           <span>
-            <ExclamationCircleIcon className="h-5 flex-none mr-1 text-red-400" />
+            <ExclamationCircleIcon className="h-5 flex-none mr-1 text-error-color" />
           </span>
           <p
             style={{ visibility: "visible" }}
-            className="text-red-500 inline flex-auto text-xs"
+            className="text-error-color inline flex-auto text-xs"
           >
             {props.errorDisplayString}
           </p>
