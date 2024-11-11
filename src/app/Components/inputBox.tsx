@@ -2,10 +2,13 @@
 
 import { Field, Label, Input } from "@headlessui/react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { useCallback, useEffect, useId, useState } from "react";
 
 type InputBoxProp = {
   label: string;
+  errorDisplayString: string;
+  inputVerification?: (text: string) => Promise<boolean>;
   inputType?: string;
 };
 
@@ -15,6 +18,7 @@ export default function InputBox(props: InputBoxProp) {
 
   const labelId = useId();
   const inputId = useId();
+  const errorId = useId();
 
   const reduceLabelSize = useCallback(() => {
     const labelElement = document.getElementById(labelId);
@@ -76,6 +80,28 @@ export default function InputBox(props: InputBoxProp) {
           name="username"
           id={inputId}
           type={hidden === true ? "password" : ""}
+          onChange={async (e) => {
+            if (props.inputVerification === undefined) return;
+
+            const inputText = e.target.value;
+            const toHide = await props.inputVerification(inputText);
+
+            const errorElement = document.getElementById(errorId);
+
+            if (errorElement === null) {
+              throw new Error(`Element with id: ${inputId} not found`);
+            }
+
+            if (!toHide) {
+              //you need to remove "hidden" if it exist
+              errorElement.className = errorElement.className
+                .split(" ")
+                .filter((w) => w !== "hidden")
+                .join(" ");
+            } else {
+              errorElement.className = errorElement.className + " hidden";
+            }
+          }}
         ></Input>
 
         {hidden === true && (
@@ -94,9 +120,22 @@ export default function InputBox(props: InputBoxProp) {
             <EyeSlashIcon className={`p-2`} color="var(--foreground)" />
           </div>
         )}
-        {/* When I am clicking the icons multiple times, sign in gets selected
-        to avoid it I added a 0px font size char tat will get selected instead */}
+        {/* When I am clicking the icons multiple times, next text gets selected
+            to avoid it I added a 0px font size char tat will get selected instead */}
         <p style={{ fontSize: "0px" }}>a</p>
+      </div>
+      <div className="h-4">
+        <div className="pt-1 flex items-center" id={errorId}>
+          <span>
+            <ExclamationCircleIcon className="h-5 flex-none mr-1 text-red-400" />
+          </span>
+          <p
+            style={{ visibility: "visible" }}
+            className="text-red-500 inline flex-auto text-xs"
+          >
+            {props.errorDisplayString}
+          </p>
+        </div>
       </div>
     </Field>
   );
