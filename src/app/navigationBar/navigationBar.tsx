@@ -110,10 +110,18 @@ export default function NavigationBar() {
               >
                 <MenuItem>
                   <a
+                    href="/signup"
+                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                  >
+                    Sign Up
+                  </a>
+                </MenuItem>
+                <MenuItem>
+                  <a
                     href="/login"
                     className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
                   >
-                    Sign In
+                    Login
                   </a>
                 </MenuItem>
               </MenuItems>

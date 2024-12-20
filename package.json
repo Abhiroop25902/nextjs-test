@@ -14,13 +14,15 @@
     "@heroicons/react": "^2.1.5",
     "@nextui-org/input": "^2.2.5",
     "@nextui-org/react": "^2.4.8",
+    "@nextui-org/spinner": "^2.2.4",
     "@nextui-org/system": "^2.2.6",
     "@nextui-org/theme": "^2.2.11",
     "classnames": "^2.5.1",
     "framer-motion": "^11.11.17",
     "next": "14.2.15",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@types/node": "^20",
