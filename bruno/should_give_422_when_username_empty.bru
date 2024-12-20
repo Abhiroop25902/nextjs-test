@@ -1,0 +1,27 @@
+meta {
+  name: should_give_422_when_username_empty
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/api/auth/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "",
+    "password": "123#qwerty",
+    "email": "abx@example.com"
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.body.success: eq false
+  res.body.error.username[0]: eq Name must be at least 2 characters long.
+  res.body.error.username: isArray 
+  res.body.error.username: length 1
+}

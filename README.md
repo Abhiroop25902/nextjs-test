@@ -43,5 +43,7 @@ more details.
 
 ## TODO
 
+- [x] bruno check for the signup endpoint
 - [ ] alert box for the errors in signup
 - [ ] login procedure
+- [ ] bruno check for login endpoint

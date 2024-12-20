@@ -1,0 +1,27 @@
+meta {
+  name: should_give_422_when_invalid_email
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/api/auth/signup
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "123qwerty",
+    "password": "123#qwerty",
+    "email": ""
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.body.success: eq false
+  res.body.error.email[0]: eq Please enter a valid email
+  res.body.error.email: isArray 
+  res.body.error.email: length 1
+}
