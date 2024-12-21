@@ -40,7 +40,6 @@ next-env.d.ts
 
 #firebase
 .firebase
-.firebaserc
 
 #env
 .env
