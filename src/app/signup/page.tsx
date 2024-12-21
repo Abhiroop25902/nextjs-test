@@ -1,12 +1,9 @@
 "use client";
 import {FormEvent, useState} from "react";
 import {Button, Card, CardBody, CardHeader, CircularProgress, Form, Input,} from "@nextui-org/react";
-import {EyeSlashFilledIcon} from "../Components/EyeSlashFilledIcon";
-import {EyeFilledIcon} from "../Components/EyeFilledIcon";
 import {SignUpFormNames, SignUpFormSchema} from "../lib/definition";
 
 export default function LoginPage() {
-    const [isPasswordVisible, setPasswordVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
 
@@ -15,13 +12,11 @@ export default function LoginPage() {
         setIsLoading(true);
 
         const formData = new FormData(event.currentTarget);
-        const username = formData.get(SignUpFormNames.username)?.toString();
         const email = formData.get(SignUpFormNames.email)?.toString();
         const password = formData.get(SignUpFormNames.password)?.toString();
 
         //validate form fields
         const validatedFields = SignUpFormSchema.safeParse({
-            username: username,
             email: email,
             password: password,
         });
@@ -32,7 +27,7 @@ export default function LoginPage() {
             const response = await fetch('/api/auth/signup', {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({username, email, password}),
+                body: JSON.stringify({email, password}),
             });
             const responseBody = await response.json();
 
@@ -45,11 +40,9 @@ export default function LoginPage() {
             }
         }
 
-
         setIsLoading(false);
     };
 
-    const toggleVisibility = () => setPasswordVisible(!isPasswordVisible);
     return (
         <div className="grid flex-auto items-center justify-items-center">
             <Form
@@ -63,11 +56,6 @@ export default function LoginPage() {
                     </CardHeader>
                     <CardBody className="space-y-5">
                         <Input
-                            label="Username"
-                            variant="bordered"
-                            name={SignUpFormNames.username}
-                        />
-                        <Input
                             type="email"
                             label="Email"
                             variant="bordered"
@@ -76,25 +64,7 @@ export default function LoginPage() {
                         <Input
                             variant="bordered"
                             label="Password"
-                            endContent={
-                                <button
-                                    className="focus:outline-none"
-                                    type="button"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        toggleVisibility();
-                                    }}
-                                    aria-label="toggle password visibility"
-                                >
-                                    {isPasswordVisible ? (
-                                        <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none"/>
-                                    ) : (
-                                        <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none"/>
-                                    )}
-                                </button>
-                            }
-                            type={isPasswordVisible ? "text" : "password"}
-                            className="max-w-xs"
+                            type="password"
                             name={SignUpFormNames.password}
                         />
                         <div className="flex flex-row justify-center">

@@ -1,9 +1,9 @@
 "use server";
 
-import {SignUpFormSchema, SignUpFormState} from "@/app/lib/definition";
+import {SignUpFormNames, SignUpFormSchema, SignUpFormState} from "@/app/lib/definition";
 
-async function signIn(credentials: string, param2: { username: any; email: any; password: any }) {
-    throw new Error('CredentialsSignin');
+async function signUp(credentials: string, param2: { email: any; password: any }) {
+    throw new Error('CredentialsSignIn');
 }
 
 export async function POST(
@@ -12,15 +12,13 @@ export async function POST(
     try {
         const data = await req.json();
 
-        const username: string | null = data.username;
         const email: string | null = data.email;
         const password: string | null = data.password;
 
         //redundant check in server side also to make sure random POST request does not break the backend
         const validatedFields = SignUpFormSchema.safeParse({
-            username: username,
-            email: email,
-            password: password,
+            [SignUpFormNames.email]: email,
+            [SignUpFormNames.password]: password,
         });
         if (!validatedFields.success)
             return Response.json({
@@ -30,7 +28,7 @@ export async function POST(
                 {status: 422});
 
 
-        await signIn('credentials', {username: username, email: email, password: password});
+        await signUp('credentials', {email: email, password: password});
 
         return Response.json({
                 success: true,
@@ -42,7 +40,7 @@ export async function POST(
     } catch (error) {
         let errorResponseString: string;
         let errorResponseStatus: number;
-        if (error instanceof Error && error.message === 'CredentialsSignin') {
+        if (error instanceof Error && error.message === 'CredentialsSignIn') {
             errorResponseString = 'Invalid Credentials';
             errorResponseStatus = 401;
         } else {
