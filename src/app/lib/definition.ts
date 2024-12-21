@@ -26,7 +26,7 @@ export const SignUpFormSchema = z.object({
     .trim(),
 });
 
-export type FormState =
+export type SignUpFormState =
   | {
       errors?: {
         name?: string[];

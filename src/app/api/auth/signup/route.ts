@@ -1,6 +1,6 @@
 "use server";
 
-import {SignUpFormSchema} from "@/app/lib/definition";
+import {SignUpFormSchema, SignUpFormState} from "@/app/lib/definition";
 
 async function signIn(credentials: string, param2: { username: any; email: any; password: any }) {
     throw new Error('CredentialsSignin');
@@ -40,16 +40,22 @@ export async function POST(
         // res.status(200).json({success: true});
 
     } catch (error) {
+        let errorResponseString: string;
+        let errorResponseStatus: number;
         if (error instanceof Error && error.message === 'CredentialsSignin') {
-            return Response.json({
-                    error: 'Invalid Credentials',
-                },
-                {status: 401});
+            errorResponseString = 'Invalid Credentials';
+            errorResponseStatus = 401;
         } else {
-            return Response.json({
-                    error: 'Something went wrong',
-                },
-                {status: 500});
+            errorResponseString = 'Something went wrong';
+            errorResponseStatus = 500;
         }
+        const responseJson: SignUpFormState = {
+            errors: {
+                password: [errorResponseString],
+            }
+        };
+        return Response.json(
+            responseJson,
+            {status: errorResponseStatus});
     }
 }

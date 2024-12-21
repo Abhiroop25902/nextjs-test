@@ -40,7 +40,8 @@ export default function LoginPage() {
             if (response.ok) {
                 console.log('SignUp Successful');
             } else {
-                console.log(responseBody.error);
+                console.log(responseBody);
+                setErrors(responseBody.errors);
             }
         }
 
