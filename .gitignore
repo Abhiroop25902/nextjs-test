@@ -37,3 +37,10 @@ next-env.d.ts
 
 #webstorm
 .idea
+
+#firebase
+.firebase
+.firebaserc
+
+#env
+.env

@@ -1,8 +1,17 @@
 "use server";
 
 import {SignUpFormNames, SignUpFormSchema, SignUpFormState} from "@/app/lib/definition";
+import {emailAlreadyPresent} from "@/app/lib/fireStoreFunctions";
 
-async function signUp(credentials: string, param2: { email: any; password: any }) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function signUp(email: string, password: string) {
+    const emailAlreadyExists = await emailAlreadyPresent(email);
+
+    if (emailAlreadyExists) {
+        console.log(`Email already exists: ${email}`);
+        throw new Error('CredentialsSignIn');
+    }
+
     throw new Error('CredentialsSignIn');
 }
 
@@ -15,6 +24,35 @@ export async function POST(
         const email: string | null = data.email;
         const password: string | null = data.password;
 
+        // not needed cause zod will check this, but still for better UX (and does the null check for email and password)
+        if (!email && !password)
+            return Response.json({
+                    success: false,
+                    errors: {
+                        email: ["Please provide an email"],
+                        password: ["Please provide a password"],
+                    }
+                },
+                {status: 422});
+
+        if (!email)
+            return Response.json({
+                    success: false,
+                    errors: {
+                        email: ["Please provide an email"],
+                    }
+                },
+                {status: 422});
+
+        if (!password)
+            return Response.json({
+                    success: false,
+                    errors: {
+                        password: ["Please provide a password"],
+                    }
+                },
+                {status: 422});
+
         //redundant check in server side also to make sure random POST request does not break the backend
         const validatedFields = SignUpFormSchema.safeParse({
             [SignUpFormNames.email]: email,
@@ -23,19 +61,16 @@ export async function POST(
         if (!validatedFields.success)
             return Response.json({
                     success: false,
-                    error: validatedFields.error.flatten().fieldErrors
+                    errors: validatedFields.error.flatten().fieldErrors
                 },
                 {status: 422});
 
-
-        await signUp('credentials', {email: email, password: password});
+        await signUp(email, password);
 
         return Response.json({
                 success: true,
             },
             {status: 200});
-
-        // res.status(200).json({success: true});
 
     } catch (error) {
         let errorResponseString: string;
