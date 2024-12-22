@@ -1,5 +1,5 @@
 import {app} from "@/app/lib/firebaseApp";
-import {collection, getDocs, getFirestore} from "@firebase/firestore";
+import {addDoc, collection, getDocs, getFirestore} from "@firebase/firestore";
 import {AuthDataSchema} from "@/app/lib/definition";
 
 const db = getFirestore(app);
@@ -22,4 +22,18 @@ export async function emailAlreadyPresent(signUpEmail: string) {
     });
 
     return present;
+}
+
+export async function addUserEmailAndPasswordHash(email: string, passwordHash: string) {
+    try {
+        const data: AuthDataSchema = {
+            email: email,
+            hash: passwordHash
+        }
+
+        await addDoc(collection(db, AUTH_COLLECTION_NAME), data);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+        throw e;
+    }
 }

@@ -1,9 +1,9 @@
 "use server";
 
 import {SignUpFormNames, SignUpFormSchema, SignUpFormState} from "@/app/lib/definition";
-import {emailAlreadyPresent} from "@/app/lib/fireStoreFunctions";
+import {addUserEmailAndPasswordHash, emailAlreadyPresent} from "@/app/lib/fireStoreFunctions";
+import {hashArgon2} from "@/app/lib/crypto";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function signUp(email: string, password: string) {
     const emailAlreadyExists = await emailAlreadyPresent(email);
 
@@ -12,7 +12,8 @@ async function signUp(email: string, password: string) {
         throw new Error('CredentialsSignIn');
     }
 
-    throw new Error('CredentialsSignIn');
+    const passwordHash = await hashArgon2(password);
+    await addUserEmailAndPasswordHash(email, passwordHash);
 }
 
 export async function POST(

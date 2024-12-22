@@ -17,6 +17,7 @@
     "@nextui-org/spinner": "^2.2.4",
     "@nextui-org/system": "^2.2.6",
     "@nextui-org/theme": "^2.2.11",
+    "argon2": "^0.41.1",
     "classnames": "^2.5.1",
     "dotenv": "^16.4.7",
     "firebase": "^11.1.0",
