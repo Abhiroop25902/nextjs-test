@@ -1,7 +1,7 @@
 "use server";
 
 import {SignUpFormNames, SignUpFormSchema, SignUpFormState} from "@/app/lib/definition";
-import {addUserEmailAndPasswordHash, emailAlreadyPresent} from "@/app/lib/fireStoreFunctions";
+import {addUserEmailAndPasswordHash, authUsersCount, emailAlreadyPresent} from "@/app/lib/fireStoreFunctions";
 import {hashArgon2} from "@/app/lib/crypto";
 
 async function signUp(email: string, password: string) {
@@ -66,6 +66,14 @@ export async function POST(
                 },
                 {status: 422});
 
+        //added only to avoid someone going into site and spamming signUp
+        const alreadyPresentAccountCount = await authUsersCount();
+
+        if (alreadyPresentAccountCount === 5) {
+            // this sting will no got to user; it will show "Something went wrong" cause of the try catch block
+            throw new Error("Account Limit Reached");
+        }
+
         await signUp(email, password);
 
         return Response.json({
@@ -83,6 +91,8 @@ export async function POST(
             errorResponseString = 'Something went wrong';
             errorResponseStatus = 500;
         }
+
+
         const responseJson: SignUpFormState = {
             errors: {
                 email: [errorResponseString],

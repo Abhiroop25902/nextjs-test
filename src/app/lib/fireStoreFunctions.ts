@@ -1,5 +1,5 @@
 import {app} from "@/app/lib/firebaseApp";
-import {addDoc, collection, getDocs, getFirestore} from "@firebase/firestore";
+import {addDoc, collection, getCountFromServer, getDocs, getFirestore} from "@firebase/firestore";
 import {AuthDataSchema} from "@/app/lib/definition";
 
 const db = getFirestore(app);
@@ -22,6 +22,12 @@ export async function emailAlreadyPresent(signUpEmail: string) {
     });
 
     return present;
+}
+
+export async function authUsersCount() {
+    const coll = collection(db, AUTH_COLLECTION_NAME);
+    const snapshot = await getCountFromServer(coll);
+    return snapshot.data().count;
 }
 
 export async function addUserEmailAndPasswordHash(email: string, passwordHash: string) {
