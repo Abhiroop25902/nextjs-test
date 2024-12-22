@@ -91,6 +91,7 @@ export async function POST(
 
             if (error instanceof Error) {
                 console.error(error.message);
+                console.error(error.stack);
             } else console.error(error);
 
             errorResponseString = 'Something went wrong';
