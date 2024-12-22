@@ -88,6 +88,11 @@ export async function POST(
             errorResponseString = 'Invalid Credentials';
             errorResponseStatus = 401;
         } else {
+
+            if (error instanceof Error) {
+                console.error(error.message);
+            } else console.error(error);
+
             errorResponseString = 'Something went wrong';
             errorResponseStatus = 500;
         }
