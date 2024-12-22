@@ -1,7 +1,7 @@
 "use server";
 
 import {SignUpFormNames, SignUpFormSchema, SignUpFormState} from "@/app/lib/definition";
-import {addUserEmailAndPasswordHash, authUsersCount, emailAlreadyPresent} from "@/app/lib/fireStoreFunctions";
+import {addUserEmailAndPasswordHash, emailAlreadyPresent} from "@/app/lib/fireStoreFunctions";
 import {hashArgon2} from "@/app/lib/crypto";
 
 async function signUp(email: string, password: string) {
@@ -66,15 +66,16 @@ export async function POST(
                 },
                 {status: 422});
 
-        //added only to avoid someone going into site and spamming signUp
-        const alreadyPresentAccountCount = await authUsersCount();
+        // TODO: this may be causing issue, fix it
+        // //added only to avoid someone going into site and spamming signUp
+        // const alreadyPresentAccountCount = await authUsersCount();
+        //
+        // console.log(`alreadyPresentAccountCount : ${alreadyPresentAccountCount}`);
 
-        console.log(`alreadyPresentAccountCount : ${alreadyPresentAccountCount}`);
-
-        if (alreadyPresentAccountCount === 5) {
-            // this sting will no got to user; it will show "Something went wrong" cause of the try catch block
-            throw new Error("AccountLimitReached");
-        }
+        // if (alreadyPresentAccountCount === 5) {
+        //     // this sting will no got to user; it will show "Something went wrong" cause of the try catch block
+        //     throw new Error("AccountLimitReached");
+        // }
 
         await signUp(email, password);
 
