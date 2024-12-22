@@ -84,6 +84,7 @@ export async function POST(
         }
         const responseJson: SignUpFormState = {
             errors: {
+                email: [errorResponseString],
                 password: [errorResponseString],
             }
         };

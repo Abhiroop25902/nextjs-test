@@ -1,5 +1,6 @@
 import {app} from "@/app/lib/firebaseApp";
 import {collection, getDocs, getFirestore} from "@firebase/firestore";
+import {AuthDataSchema} from "@/app/lib/definition";
 
 const db = getFirestore(app);
 const AUTH_COLLECTION_NAME = "authData";
@@ -13,7 +14,9 @@ export async function emailAlreadyPresent(signUpEmail: string) {
             return
         }
 
-        if (doc.id === signUpEmail) {
+        const docData = doc.data() as AuthDataSchema;
+
+        if (docData.email === signUpEmail) {
             present = true;
         }
     });
