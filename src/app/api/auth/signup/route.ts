@@ -69,9 +69,11 @@ export async function POST(
         //added only to avoid someone going into site and spamming signUp
         const alreadyPresentAccountCount = await authUsersCount();
 
+        console.log(`alreadyPresentAccountCount : ${alreadyPresentAccountCount}`);
+
         if (alreadyPresentAccountCount === 5) {
             // this sting will no got to user; it will show "Something went wrong" cause of the try catch block
-            throw new Error("Account Limit Reached");
+            throw new Error("AccountLimitReached");
         }
 
         await signUp(email, password);
@@ -87,8 +89,10 @@ export async function POST(
         if (error instanceof Error && error.message === 'CredentialsSignIn') {
             errorResponseString = 'Invalid Credentials';
             errorResponseStatus = 401;
+        } else if (error instanceof Error && error.message === 'AccountLimitReached') {
+            errorResponseString = 'Invalid Credentials';
+            errorResponseStatus = 401;
         } else {
-
             if (error instanceof Error) {
                 console.error(error.message);
                 console.error(error.stack);

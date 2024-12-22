@@ -37,7 +37,8 @@ export async function addUserEmailAndPasswordHash(email: string, passwordHash: s
             hash: passwordHash
         }
 
-        await addDoc(collection(db, AUTH_COLLECTION_NAME), data);
+        const docRef = await addDoc(collection(db, AUTH_COLLECTION_NAME), data);
+        console.log(`Added Document with docId: ${docRef.id}`);
     } catch (e) {
         console.error("Error adding document: ", e);
         throw e;
