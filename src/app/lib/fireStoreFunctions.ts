@@ -1,12 +1,12 @@
 import {app} from "@/app/lib/firebaseApp";
-import {addDoc, collection, getCountFromServer, getDocs, getFirestore} from "@firebase/firestore";
 import {AuthDataSchema} from "@/app/lib/definition";
+import {getFirestore} from "firebase-admin/firestore";
 
 const db = getFirestore(app);
 const AUTH_COLLECTION_NAME = "authData";
 
 export async function emailAlreadyPresent(signUpEmail: string) {
-    const querySnapshot = await getDocs(collection(db, AUTH_COLLECTION_NAME));
+    const querySnapshot = await db.collection(AUTH_COLLECTION_NAME).get();
     let present = false;
 
     querySnapshot.forEach(doc => {
@@ -25,8 +25,8 @@ export async function emailAlreadyPresent(signUpEmail: string) {
 }
 
 export async function authUsersCount() {
-    const coll = collection(db, AUTH_COLLECTION_NAME);
-    const snapshot = await getCountFromServer(coll);
+    const coll = db.collection(AUTH_COLLECTION_NAME);
+    const snapshot = await coll.count().get();
     return snapshot.data().count;
 }
 
@@ -37,7 +37,8 @@ export async function addUserEmailAndPasswordHash(email: string, passwordHash: s
             hash: passwordHash
         }
 
-        const docRef = await addDoc(collection(db, AUTH_COLLECTION_NAME), data);
+
+        const docRef = await db.collection(AUTH_COLLECTION_NAME).add(data);
         console.log(`Added Document with docId: ${docRef.id}`);
     } catch (e) {
         console.error("Error adding document: ", e);
