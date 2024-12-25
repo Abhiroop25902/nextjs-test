@@ -15,6 +15,15 @@ const firebaseConfig = {
     measurementId: process.env.FB_MEASUREMENT_ID
 };
 
+console.log(process.env.FB_API_KEY)
+console.log(process.env.FB_AUTH_DOMAIN)
+console.log(process.env.FB_PROJECT_ID)
+console.log(process.env.FB_STORAGE_BUCKET)
+console.log(process.env.FB_MESSAGING_SENDER_ID)
+console.log(process.env.FB_APP_ID)
+console.log(process.env.FB_MEASUREMENT_ID)
+
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
