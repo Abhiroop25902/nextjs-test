@@ -69,8 +69,6 @@ export async function POST(
         //added only to avoid someone going into site and spamming signUp
         const alreadyPresentAccountCount = await authUsersCount();
 
-        console.log(`alreadyPresentAccountCount : ${alreadyPresentAccountCount}`);
-
         if (alreadyPresentAccountCount === 5) {
             // this sting will no got to user; it will show "Something went wrong" cause of the try catch block
             throw new Error("AccountLimitReached");
