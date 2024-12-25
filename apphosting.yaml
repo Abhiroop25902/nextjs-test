@@ -36,3 +36,5 @@ env:
     secret: FirebaseAppId
   - variable: FB_MEASUREMENT_ID
     secret: FirebaseMeasurementId
+  - variable: GOOGLE_CLOUD_PROJECT
+    secret: GoogleCloudProjectId
