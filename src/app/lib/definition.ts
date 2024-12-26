@@ -34,4 +34,5 @@ export type SignUpFormState =
 export type AuthDataSchema = {
     email: string;
     hash: string;
+    verified: boolean
 }

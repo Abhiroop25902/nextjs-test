@@ -34,7 +34,8 @@ export async function addUserEmailAndPasswordHash(email: string, passwordHash: s
     try {
         const data: AuthDataSchema = {
             email: email,
-            hash: passwordHash
+            hash: passwordHash,
+            verified: false,
         }
 
         await db.collection(AUTH_COLLECTION_NAME).add(data);
@@ -42,4 +43,24 @@ export async function addUserEmailAndPasswordHash(email: string, passwordHash: s
         console.error("Error adding document: ", e);
         throw e;
     }
+}
+
+export async function markEmailVerificationDone(userId: string) {
+    const userRef = db.collection(AUTH_COLLECTION_NAME).doc(userId);
+
+    const userDoc = await userRef.get();
+
+    if (!userDoc.exists) {
+        throw new Error(`User with id: ${userId} does not exists`);
+    }
+
+    const userData = userDoc.data() as AuthDataSchema;
+
+    if (userData.verified) {
+        throw new Error(`User with email: ${userData.email} already verified`);
+    }
+
+    await userRef.update({
+        verified: true,
+    })
 }
