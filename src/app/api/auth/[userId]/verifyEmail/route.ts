@@ -1,4 +1,4 @@
-import {redirect} from "next/navigation";
+import {NextResponse} from "next/server";
 import {markEmailVerificationDone} from "@/app/lib/fireStoreFunctions";
 
 export async function GET(
@@ -9,7 +9,8 @@ export async function GET(
     console.log(userId);
     try {
         // will throw if userId does not exist or the user is already email verified
-        markEmailVerificationDone(userId);
+        await markEmailVerificationDone(userId);
+        return NextResponse.redirect(new URL('/emailVerified', req.url));
     } catch (error) {
         if (error instanceof Error) {
             console.error(error.message);
@@ -17,6 +18,6 @@ export async function GET(
         } else console.error(error);
 
 
-        redirect('/404');
+        return NextResponse.redirect(new URL('/404', req.url));
     }
 }

@@ -3,7 +3,7 @@ import {FormEvent, useState} from "react";
 import {Button, Card, CardBody, CardHeader, CircularProgress, Form, Input,} from "@nextui-org/react";
 import {SignUpFormNames, SignUpFormSchema} from "../lib/definition";
 
-export default function LoginPage() {
+export default function SignInPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
 

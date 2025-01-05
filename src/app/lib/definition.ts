@@ -36,3 +36,11 @@ export type AuthDataSchema = {
     hash: string;
     verified: boolean
 }
+
+export type EmailData = {
+    to: Array<string>;
+    message: {
+        subject: string;
+        html: string;
+    }
+}
