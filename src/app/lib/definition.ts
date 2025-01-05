@@ -44,3 +44,5 @@ export type EmailData = {
         html: string;
     }
 }
+
+export const BASE_URI = "https://abhiroop.dev";

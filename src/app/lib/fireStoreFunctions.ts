@@ -1,5 +1,5 @@
 import {app} from "@/app/lib/firebaseApp";
-import {AuthDataSchema, EmailData} from "@/app/lib/definition";
+import {AuthDataSchema, BASE_URI, EmailData} from "@/app/lib/definition";
 import {getFirestore} from "firebase-admin/firestore";
 
 const db = getFirestore(app);
@@ -33,7 +33,7 @@ export async function authUsersCount() {
 
 export async function sendActivationEmail(email: string, userId: string): Promise<void> {
     try {
-        const verifyUrl = `https://abhiroop.dev/api/auth/${userId}/verifyEmail`;
+        const verifyUrl = `${BASE_URI}/api/auth/${userId}/verifyEmail`;
 
         const emailData: EmailData = {
             to: [email],
@@ -41,7 +41,7 @@ export async function sendActivationEmail(email: string, userId: string): Promis
                 subject: 'Email Verification for abhiroop.dev',
                 html: `<div>
                             <p style="font-family:system-ui"> 
-                                Please confirm that you want to use this email, clicking the button below will enable your access for <a href="https://abhiroop.dev">abhiroop.dev</a>
+                                Please confirm that you want to use this email, clicking the button below will enable your access for <a href="${BASE_URI}">abhiroop.dev</a>
                             </p>
                             <a href="${verifyUrl}" target="_blank" style="font-family:system-ui">Verify Email</a>
                        </div>`

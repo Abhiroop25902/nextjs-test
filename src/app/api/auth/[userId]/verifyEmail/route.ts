@@ -1,5 +1,6 @@
 import {NextResponse} from "next/server";
 import {markEmailVerificationDone} from "@/app/lib/fireStoreFunctions";
+import {BASE_URI} from "@/app/lib/definition";
 
 export async function GET(
     req: Request,
@@ -10,14 +11,15 @@ export async function GET(
     try {
         // will throw if userId does not exist or the user is already email verified
         await markEmailVerificationDone(userId);
-        return NextResponse.redirect(new URL('/emailVerified', req.url));
+        // normal /emailVerified does not work, cause the email link is '_blank', it redirects to 0.0.0.0:8080/emailVerified
+        return NextResponse.redirect(new URL(BASE_URI + '/emailVerified', req.url));
     } catch (error) {
         if (error instanceof Error) {
             console.error(error.message);
             console.error(error.stack);
         } else console.error(error);
 
-
-        return NextResponse.redirect(new URL('/404', req.url));
+        // normal /404 does not work, cause the email link is '_blank', it redirects to 0.0.0.0:8080/404
+        return NextResponse.redirect(new URL(BASE_URI + '/404', req.url));
     }
 }
