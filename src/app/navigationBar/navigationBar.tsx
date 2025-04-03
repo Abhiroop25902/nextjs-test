@@ -18,6 +18,7 @@ type navigationBarState = { [id: string]: navigationStatus };
 const navigationInitialState: navigationBarState = {
     home: {name: "Home", href: "/", current: false},
     count: {name: "Count", href: "/count", current: false},
+    queryai: {name: "Query AI", href: "/queryai", current: false},
 };
 
 export default function NavigationBar() {
