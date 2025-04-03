@@ -3,45 +3,45 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --secondary: #1f2937;
-  --button-color: rgb(79 70 229);
-  --button-color-hover: rgb(99 102 241);
-  --error-color: rgb(248 113 113);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #171717;
     --secondary: #1f2937;
     --button-color: rgb(79 70 229);
     --button-color-hover: rgb(99 102 241);
     --error-color: rgb(248 113 113);
-  }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+        --secondary: #1f2937;
+        --button-color: rgb(79 70 229);
+        --button-color-hover: rgb(99 102 241);
+        --error-color: rgb(248 113 113);
+    }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+    color: var(--foreground);
+    background: var(--background);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #circularProgressBar {
-  stroke: var(--foreground);
+    stroke: var(--foreground);
 }
 
 .card {
-  background-color: var(--secondary);
+    background-color: var(--secondary);
 }
 
 nav {
-  background-color: var(--secondary);
+    background-color: var(--secondary);
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+    .text-balance {
+        text-wrap: balance;
+    }
 }
