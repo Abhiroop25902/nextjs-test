@@ -19,6 +19,8 @@ const navigationInitialState: navigationBarState = {
     home: {name: "Home", href: "/", current: false},
     count: {name: "Count", href: "/count", current: false},
     queryai: {name: "Query AI", href: "/queryai", current: false},
+    login: {name: "Login", href: "/login", current: false},
+    signup: {name: "Sign Up", href: "/signup", current: false}
 };
 
 export default function NavigationBar() {
@@ -76,7 +78,7 @@ export default function NavigationBar() {
                     </div>
                     <div
                         className={`grow px-4 antialiased font-bold font-sans text-large`}>
-                        {navigation[currPathName].name}
+                        {navigation[currPathName]?.name}
                     </div>
                     <div
                         className=" inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
