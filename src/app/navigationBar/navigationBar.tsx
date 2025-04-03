@@ -56,7 +56,7 @@ export default function NavigationBar() {
     // Disclosure Button alters the state between open and close
     return (
         <Disclosure as={"nav"} className={"bg-gray-800 flex-none sticky top-0"}>
-            <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div className="px-2 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 items-center justify-between">
                     <div className="inset-y-0 left-0 flex items-center">
                         {/* Mobile menu button*/}
@@ -121,7 +121,7 @@ export default function NavigationBar() {
         data-[closed]:max-h-0
         data-[open]:max-h-screen"
             >
-                <div className="space-y-1 px-6 pb-3 pt-2">
+                <div className="space-y-1 px-2 sm:px-6 lg:px-8 pb-3">
                     {Object.keys(navigation).map((key) => (
                         <Link
                             key={navigation[key].name}
