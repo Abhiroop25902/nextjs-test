@@ -22,7 +22,7 @@ const navigationInitialState: navigationBarState = {
 
 export default function NavigationBar() {
     const [navigation, setNavigation] = useState(navigationInitialState);
-    const currPathName = usePathname().slice(1);
+    const currPathName = usePathname().slice(1) || "home";
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     function updateCurrentPage(pageKey: string) {
@@ -45,7 +45,7 @@ export default function NavigationBar() {
         setNavigation(newNavigationState);
     }
 
-    useEffect(() => updateCurrentPage(currPathName || "home"), [currPathName, updateCurrentPage]);
+    useEffect(() => updateCurrentPage(currPathName), [currPathName, updateCurrentPage]);
 
 
     // Disclosure Class provides an "open" and "close state" and is used here for mobile phone navigation dropdown
@@ -55,7 +55,7 @@ export default function NavigationBar() {
         <Disclosure as={"nav"} className={"bg-gray-800 flex-none sticky top-0"}>
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 items-center justify-between">
-                    <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                    <div className="inset-y-0 left-0 flex items-center">
                         {/* Mobile menu button*/}
                         <DisclosureButton
                             className={`group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 
@@ -73,31 +73,12 @@ export default function NavigationBar() {
                             />
                         </DisclosureButton>
                     </div>
-                    {/* The Navigation Buttons in Desktop Mode */}
-                    <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                        <div className="hidden sm:ml-6 sm:block">
-                            <div className="flex space-x-4">
-                                {Object.keys(navigation).map((key) => (
-                                    <Link
-                                        key={navigation[key].name}
-                                        href={navigation[key].href}
-                                        aria-current={navigation[key].current ? "page" : undefined}
-                                        className={classNames(
-                                            navigation[key].current
-                                                ? "bg-gray-900 text-white"
-                                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                                            "rounded-md px-3 py-2 text-sm font-medium"
-                                        )}
-                                        onClick={() => updateCurrentPage(key)}
-                                    >
-                                        {navigation[key].name}
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
+                    <div
+                        className={`grow px-4 antialiased font-bold font-sans text-large`}>
+                        {navigation[currPathName].name}
                     </div>
                     <div
-                        className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                        className=" inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         {/* Profile dropdown */}
                         <Menu as="div" className="relative ml-3">
                             <MenuButton
@@ -133,11 +114,11 @@ export default function NavigationBar() {
             </div>
             <DisclosurePanel
                 transition
-                className="sm:hidden transition-all duration-200 ease-out overflow-hidden
+                className="transition-all duration-200 ease-out overflow-hidden
         data-[closed]:max-h-0
         data-[open]:max-h-screen"
             >
-                <div className="space-y-1 px-2 pb-3 pt-2">
+                <div className="space-y-1 px-6 pb-3 pt-2">
                     {Object.keys(navigation).map((key) => (
                         <Link
                             key={navigation[key].name}
