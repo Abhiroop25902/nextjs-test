@@ -2,7 +2,7 @@
 
 import CircularProgressBar from "@/app/Components/circularProgressBar";
 import {useEffect, useState} from "react";
-import LocalStorageKeys from "@/constants/LocalStorageKeys";
+import LocalStorageKeys from "@/app/constants/LocalStorageKeys";
 
 
 export default function CountComponent() {

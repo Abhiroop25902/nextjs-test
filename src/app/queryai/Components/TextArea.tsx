@@ -3,8 +3,11 @@ import React, {useEffect, useRef, useState} from "react";
 import {Cog6ToothIcon, PaperAirplaneIcon} from "@heroicons/react/24/solid";
 import ApiKeyDialog from "@/app/queryai/Components/ApiKeyDialog";
 import LockedSubmitIcon from "@/app/queryai/Components/LockedSubmitIcon";
-import {ApiKeyDialogHandles} from "@/app/queryai/types";
-import LocalStorageKeys from "@/constants/LocalStorageKeys";
+import {ApiKeyDialogHandles, ChatMessage} from "@/app/queryai/types";
+import LocalStorageKeys from "@/app/constants/LocalStorageKeys";
+import {chatHistoryStore} from "@/app/queryai/stores/chatHistoryStore";
+import {MessageRole} from "@/app/queryai/enums";
+import {v4 as uuidv4} from 'uuid';
 
 export default function TextArea() {
     const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
@@ -14,8 +17,22 @@ export default function TextArea() {
         event.currentTarget.style.height = event.currentTarget.scrollHeight + "px"; // Set to scroll height
     }
 
+    const pushMessage = chatHistoryStore(store => store.pushMessage);
+
     function handleInput() {
-        console.log(textAreaRef.current?.value);
+        const messageText = textAreaRef.current?.value
+
+        if (messageText) {
+            const message: ChatMessage = {
+                role: MessageRole.USER,
+                text: messageText,
+                display: true,
+                id: uuidv4()
+            }
+
+            pushMessage(message);
+        }
+        
         textAreaRef.current!.value = "";
     }
 
