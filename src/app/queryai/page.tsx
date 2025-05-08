@@ -17,7 +17,5 @@ export default function QueryAI() {
                 <div>hello</div>
             </CenterPanel>
         </div>
-
-
     );
 }
