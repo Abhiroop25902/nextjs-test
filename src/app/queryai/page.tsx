@@ -1,6 +1,7 @@
 import {Metadata} from "next";
 import CenterPanel from "@/app/queryai/Components/CenterPanel";
 import Chat from "@/app/queryai/Components/Chat";
+import Chart from "@/app/queryai/Components/Chart";
 
 export const metadata: Metadata = {
     title: "QueryAI",
@@ -14,7 +15,7 @@ export default function QueryAI() {
             </CenterPanel>
 
             <CenterPanel className={`w-4/12`}>
-                <div>hello</div>
+                <Chart/>
             </CenterPanel>
         </div>
     );
