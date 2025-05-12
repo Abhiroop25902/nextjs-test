@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {Cog6ToothIcon, PaperAirplaneIcon} from "@heroicons/react/24/solid";
 import ApiKeyDialog from "@/app/queryai/Components/ApiKeyDialog";
 import LockedSubmitIcon from "@/app/queryai/Components/LockedSubmitIcon";
-import {ApiKeyDialogHandles, ChatMessage} from "@/app/queryai/types";
+import {ApiKeyDialogHandles, ChatMessage, GCloudLocalData, GCloudLocalDataPossibleKeys} from "@/app/queryai/types";
 import LocalStorageKeys from "@/app/constants/LocalStorageKeys";
 import {chatHistoryStore} from "@/app/queryai/stores/chatHistoryStore";
 import {MessageRole} from "@/app/queryai/enums";
@@ -80,17 +80,36 @@ export default function TextArea() {
         dialogRef.current?.showModal();
     }
 
-    const {queryAiApiKey} = LocalStorageKeys
-    const [queryAiApiKeyValue, setQueryAiApiKeyValue] = useState<string | null>(null);
+    const [gCloudLocalData, setGCloudLocalData] = useState<GCloudLocalData>({});
 
-    const updateQueryAiApiKey = (api_key: string) => {
-        localStorage.setItem(queryAiApiKey, api_key);
-        setQueryAiApiKeyValue(localStorage.getItem(queryAiApiKey));
+    const updateGCloudLocalData = (gCloudLocalData: GCloudLocalData) => {
+        Object.entries(gCloudLocalData).forEach(([key, value]) => {
+            if (value) localStorage.setItem(LocalStorageKeys[key], value);
+            else localStorage.removeItem(LocalStorageKeys[key]);
+        })
+
+        setGCloudLocalData(
+            GCloudLocalDataPossibleKeys.reduce<GCloudLocalData>((currObj, key) => {
+                currObj[key as keyof GCloudLocalData] = localStorage.getItem(LocalStorageKeys[key]) ?? undefined;
+                return currObj;
+            }, {})
+        );
     }
 
     useEffect(() => {
-        setQueryAiApiKeyValue(localStorage.getItem(queryAiApiKey));
-    }, [queryAiApiKey]);
+        setGCloudLocalData(
+            GCloudLocalDataPossibleKeys.reduce<GCloudLocalData>((currObj, key) => {
+                currObj[key as keyof GCloudLocalData] = localStorage.getItem(LocalStorageKeys[key]) ?? undefined;
+                return currObj;
+            }, {})
+        );
+    }, []);
+
+    const allGCloudKeysPresent = () => {
+        return GCloudLocalDataPossibleKeys.reduce((currState, key) => {
+            return currState && !!gCloudLocalData[LocalStorageKeys[key] as keyof GCloudLocalData]
+        }, true)
+    }
 
     return <div
         className={`flex w-full border-2 border-transparent rounded-3xl focus-within:border-white focus-within:border-2 focus-within:border-solid focus-within:rounded-3xl`}>
@@ -102,11 +121,11 @@ export default function TextArea() {
         <div className={`flex items-center rounded-r-3xl pr-3 space-x-0.5`} style={{backgroundColor: "field"}}>
             <Cog6ToothIcon className={`size-6`} onClick={displayModal}/>
             {
-                queryAiApiKeyValue ?
+                allGCloudKeysPresent() ?
                     <PaperAirplaneIcon className={`size-6`} onClick={handleInput}/> :
                     <LockedSubmitIcon/>
             }
         </div>
-        <ApiKeyDialog ref={dialogRef} setApiKey={updateQueryAiApiKey} initialApiKeyValue={queryAiApiKeyValue}/>
+        <ApiKeyDialog ref={dialogRef} setGCloudLocalData={updateGCloudLocalData} gCloudLocalData={gCloudLocalData}/>
     </div>
 }

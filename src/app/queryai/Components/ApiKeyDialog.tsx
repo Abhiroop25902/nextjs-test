@@ -1,12 +1,11 @@
-import {Description, Dialog, DialogBackdrop, DialogPanel, DialogTitle} from "@headlessui/react";
+import {Description, Dialog, DialogBackdrop, DialogPanel, DialogTitle, Input, Label, Field} from "@headlessui/react";
 import {RefObject, useImperativeHandle, useRef, useState} from "react";
-import {ApiKeyDialogHandles} from "@/app/queryai/types";
-import {Input} from "@nextui-org/input";
+import {ApiKeyDialogHandles, GCloudLocalData} from "@/app/queryai/types";
 
-export default function ApiKeyDialog({ref, initialApiKeyValue, setApiKey}: {
+export default function ApiKeyDialog({ref, gCloudLocalData, setGCloudLocalData}: {
     ref: RefObject<ApiKeyDialogHandles>,
-    initialApiKeyValue: string | null,
-    setApiKey: (k: string) => void
+    gCloudLocalData: GCloudLocalData,
+    setGCloudLocalData: (k: GCloudLocalData) => void
 }) {
     const [open, setOpen] = useState(false);
 
@@ -15,7 +14,9 @@ export default function ApiKeyDialog({ref, initialApiKeyValue, setApiKey}: {
         showModal: () => setOpen(true)
     }))
 
-    const inputRef = useRef<HTMLInputElement>(null);
+    const projectIdInputRef = useRef<HTMLInputElement>(null);
+    const bigQueryApiKeyInputRef = useRef<HTMLInputElement>(null);
+    const genLangApiKeyInputRef = useRef<HTMLInputElement>(null);
 
     return (
         <Dialog className="relative z-10"
@@ -39,29 +40,49 @@ export default function ApiKeyDialog({ref, initialApiKeyValue, setApiKey}: {
                         <div className="px-8 pt-6">
                             <div className="sm:flex sm:items-start flex-col space-y-2">
                                 <DialogTitle as="h3" className="text-base font-semibold text-gray-400">
-                                    Input Google API Key
+                                    Input Google Cloud Data
                                 </DialogTitle>
-                                <Input
-                                    type={"password"}
-                                    ref={inputRef}
-                                    className={
-                                        `rounded-lg border-none text-sm/6  focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25`
-                                    }
-                                    defaultValue={initialApiKeyValue || ""}
-                                    readOnly={false}
+                                <Description className="text-sm text-gray-500">This data is stored in <a
+                                    className={`underline`}
+                                    href={`https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage`}>LocalStorage</a> and
+                                    not in cloud</Description>
 
-                                />
-                                <Description className="text-sm text-gray-500">Get your Api Key <a
-                                    href={`https://aistudio.google.com/apikey`} target={`_blank`}
-                                    className={`underline`}>here</a>. API key is saved locally on browser.</Description>
+                                {/*//TODO: refactor to a component for three inputs => projectId, bqKey ,genLangAIKey*/}
+                                <div className={`mt-2`}>
+                                    <Field>
+                                        <Label className={`text-sm/6 font-medium text-white`}>
+                                            Generative Language API Key
+                                        </Label>
+                                        <Description className="text-xs text-gray-500">Get your Api Key <a
+                                            href={`https://aistudio.google.com/apikey`} target={`_blank`}
+                                            className={`underline`}>here</a>. API key is saved locally on
+                                            browser.</Description>
+                                        <Input
+                                            type={"password"}
+                                            ref={genLangApiKeyInputRef}
+                                            className={`
+                                        mt-2 block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm/6 text-white
+                                        focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25`
+                                            }
+                                            defaultValue={gCloudLocalData?.genLangApiKey ?? ""}
+                                        />
+
+                                    </Field>
+                                </div>
+
+
                             </div>
                         </div>
                         <div className="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                             <button
                                 type="button"
                                 onClick={() => {
-                                    const newApiKey = inputRef.current?.value;
-                                    if (newApiKey !== undefined) setApiKey(newApiKey);
+                                    const newGCloudState: GCloudLocalData = {
+                                        projectId: projectIdInputRef.current?.value,
+                                        bigQueryApiKey: bigQueryApiKeyInputRef.current?.value,
+                                        genLangApiKey: genLangApiKeyInputRef.current?.value
+                                    };
+                                    setGCloudLocalData(newGCloudState);
                                     ref.current?.hideModal()
                                 }}
                                 className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 sm:ml-3 sm:w-auto"

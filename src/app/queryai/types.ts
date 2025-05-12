@@ -11,3 +11,11 @@ export type ChatMessage = {
     text: string,
     display: boolean
 }
+
+export type GCloudLocalData = Partial<{
+    projectId: string,
+    bigQueryApiKey: string,
+    genLangApiKey: string
+}>
+
+export const GCloudLocalDataPossibleKeys = [`projectId`, `bigQueryApiKey`, `genLangApiKey`];
