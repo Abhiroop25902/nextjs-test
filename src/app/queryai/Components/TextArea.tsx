@@ -107,8 +107,8 @@ export default function TextArea() {
 
     const allGCloudKeysPresent = () => {
         return GCloudLocalDataPossibleKeys.reduce((currState, key) => {
-            return currState && !!gCloudLocalData[LocalStorageKeys[key] as keyof GCloudLocalData]
-        }, true)
+            return currState && !!gCloudLocalData[key as keyof GCloudLocalData]
+        }, true);
     }
 
     return <div
