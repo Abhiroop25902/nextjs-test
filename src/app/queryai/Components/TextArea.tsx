@@ -117,7 +117,8 @@ export default function TextArea() {
              className={`flex-grow rounded-l-3xl resize-none p-4 max-h-40 focus-visible:outline-none`}
              onInput={autoResize}
              onChange={autoResize}
-             ref={textAreaRef}/>
+             ref={textAreaRef}
+             style={{backgroundColor: "field"}}/>
         <div className={`flex items-center rounded-r-3xl pr-3 space-x-0.5`} style={{backgroundColor: "field"}}>
             <Cog6ToothIcon className={`size-6`} onClick={displayModal}/>
             {
