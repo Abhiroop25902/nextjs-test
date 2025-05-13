@@ -1,6 +1,7 @@
-import {Description, Dialog, DialogBackdrop, DialogPanel, DialogTitle, Input, Label, Field} from "@headlessui/react";
+import {Description, Dialog, DialogBackdrop, DialogPanel, DialogTitle} from "@headlessui/react";
 import {RefObject, useImperativeHandle, useRef, useState} from "react";
 import {ApiKeyDialogHandles, GCloudLocalData} from "@/app/queryai/types";
+import DialogInput from "@/app/queryai/Components/DialogInput";
 
 export default function ApiKeyDialog({ref, gCloudLocalData, setGCloudLocalData}: {
     ref: RefObject<ApiKeyDialogHandles>,
@@ -37,40 +38,52 @@ export default function ApiKeyDialog({ref, gCloudLocalData, setGCloudLocalData}:
                         transition
                         className="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
                     >
-                        <div className="px-8 pt-6">
-                            <div className="sm:flex sm:items-start flex-col space-y-2">
-                                <DialogTitle as="h3" className="text-base font-semibold text-gray-400">
-                                    Input Google Cloud Data
-                                </DialogTitle>
-                                <Description className="text-sm text-gray-500">This data is stored in <a
-                                    className={`underline`}
-                                    href={`https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage`}>LocalStorage</a> and
-                                    not in cloud</Description>
-
-                                {/*//TODO: refactor to a component for three inputs => projectId, bqKey ,genLangAIKey*/}
-                                <div className={`mt-2`}>
-                                    <Field>
-                                        <Label className={`text-sm/6 font-medium text-white`}>
-                                            Generative Language API Key
-                                        </Label>
-                                        <Description className="text-xs text-gray-500">Get your Api Key <a
-                                            href={`https://aistudio.google.com/apikey`} target={`_blank`}
-                                            className={`underline`}>here</a>. API key is saved locally on
-                                            browser.</Description>
-                                        <Input
-                                            type={"password"}
-                                            ref={genLangApiKeyInputRef}
-                                            className={`
-                                        mt-2 block w-full rounded-lg border-none bg-white/5 px-3 py-1.5 text-sm/6 text-white
-                                        focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25`
-                                            }
-                                            defaultValue={gCloudLocalData?.genLangApiKey ?? ""}
-                                        />
-
-                                    </Field>
+                        <div className="px-8 pt-6 pb-2">
+                            <div className="sm:flex flex-col space-y-4">
+                                <div>
+                                    <DialogTitle as="h3" className="text-base font-semibold text-gray-400">
+                                        Input Google Cloud Data
+                                    </DialogTitle>
+                                    <Description className="text-xs text-gray-500">This data is stored in <a
+                                        className={`underline`}
+                                        href={`https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage`}>LocalStorage</a> and
+                                        not in cloud. Make sure that all these data are from a single Google Cloud
+                                        Project</Description>
                                 </div>
-
-
+                                <div>
+                                    <DialogInput
+                                        labelString={`Google Cloud Project Key`}
+                                        ref={projectIdInputRef}
+                                        defaultValue={gCloudLocalData?.projectId ?? ""}
+                                    >Get your Google Cloud Project Id by following <a
+                                        href={"https://support.google.com/googleapi/answer/7014113?hl=en"}
+                                        target={`_blank`}
+                                        className={`underline`}>this link</a>. This will be used to call the
+                                        BigQuery API and the Gemini API</DialogInput>
+                                </div>
+                                <div>
+                                    <DialogInput
+                                        labelString={`Generative Language API Key`}
+                                        ref={genLangApiKeyInputRef}
+                                        defaultValue={gCloudLocalData?.genLangApiKey ?? ""}
+                                    >
+                                        Get your Generative Language Api Key <a
+                                        href={"https://aistudio.google.com/apikey"} target={`_blank`}
+                                        className={`underline`}>here</a>. This will be used to communicate with
+                                        Gemini API to enable LLM chat
+                                    </DialogInput>
+                                </div>
+                                <div>
+                                    <DialogInput
+                                        labelString={`Big Query API Key`}
+                                        ref={bigQueryApiKeyInputRef}
+                                        defaultValue={gCloudLocalData?.bigQueryApiKey ?? ""}
+                                    >Get your Big Query Api Key by following<a
+                                        href={"https://onelinerhub.com/google-big-query/how-do-i-generate-a-google-bigquery-api-key"}
+                                        target={`_blank`}
+                                        className={`underline`}>this link</a>. This will be used to execute
+                                        BigQuery SQL to fetch data for Gemini</DialogInput>
+                                </div>
                             </div>
                         </div>
                         <div className="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
